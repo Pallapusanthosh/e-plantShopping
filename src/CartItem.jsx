@@ -89,7 +89,7 @@ const CartItem = ({ onContinueShopping }) => {
     </div>
   ))
 ) : (
-  <p>Your cart is empty. Please add some items!</p>
+  <p>Your cart is empty. Please do add some items!</p>
 )}
 
     </div>
