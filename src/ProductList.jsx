@@ -6,9 +6,9 @@ import { addItem } from './CartSlice';
 
 function ProductList() {
   const [showCart, setShowCart] = useState(false);
-  const [showPlants, setShowPlants] = useState(true); 
+  const [showPlants, setShowPlants] = useState(true);
 
-  const plantsArray = [
+    const plantsArray = [
     {
         category: "Air Purifying Plants",
         plants: [
@@ -215,6 +215,7 @@ function ProductList() {
         ]
     }
 ];
+
   const dispatch = useDispatch();
 
   const cartItems = useSelector((state) => state.cart.items);
@@ -234,6 +235,11 @@ function ProductList() {
 
   const handleAddToCart = (product) => {
     dispatch(addItem({ ...product, quantity: 1 }));
+  };
+
+  // Function to check if the plant is already in the cart
+  const isInCart = (product) => {
+    return cartItems.some((item) => item.name === product.name);
   };
 
   return (
@@ -281,25 +287,25 @@ function ProductList() {
         </div>
         <div>
           <a href="#" onClick={handleCartClick}>
-          <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 256 256"
-    height="40"
-    width="40"
-    fill="white"
-    style={{ marginRight: '10px' }}
-  >
-    <circle cx="80" cy="216" r="12"></circle>
-    <circle cx="184" cy="216" r="12"></circle>
-    <path
-      d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8"
-      fill="none"
-      stroke="#faf9f9"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-    ></path>
-  </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 256 256"
+              height="40"
+              width="40"
+              fill="white"
+              style={{ marginRight: '10px' }}
+            >
+              <circle cx="80" cy="216" r="12"></circle>
+              <circle cx="184" cy="216" r="12"></circle>
+              <path
+                d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8"
+                fill="none"
+                stroke="#faf9f9"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+              ></path>
+            </svg>
             {totalQuantity > 0 && <span className="cart-count">{totalQuantity}</span>}
           </a>
         </div>
@@ -324,8 +330,9 @@ function ProductList() {
                     <button
                       className="product-button"
                       onClick={() => handleAddToCart(plant)}
+                      disabled={isInCart(plant)} // Disable the button if the plant is in the cart
                     >
-                      Add to Cart
+                      {isInCart(plant) ? 'Added to Cart' : 'Add to Cart'}
                     </button>
                   </div>
                 ))}
